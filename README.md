@@ -18,3 +18,13 @@
 - Use `.yml`
 - `local`, `dev`, `qa`, `stg`, `prd`
 
+---
+
+# APIs
+
+## Actuator
+
+| URI              | Method | Description                                                                |
+|------------------|--------|----------------------------------------------------------------------------|
+| /actuator/health | GET    | Health check                                                               |
+| /actuator/info   | GET    | Shows info properties (e.g., buildInfo, git info, or custom info.* fields) |
