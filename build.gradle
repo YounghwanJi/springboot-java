@@ -31,6 +31,11 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
+
+    // ----- JPA -----
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // PostgreSQL DB Driver
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
