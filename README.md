@@ -1,6 +1,8 @@
 # Information
 
 > BoilerPlate for Spring Boot based on Java
+>> [!WARNING] Before running this project, please follow the 'Setup' section to launch the docker images and set up the
+> > database.
 
 ## Project Information
 
@@ -38,6 +40,8 @@
 | /api/v1/health | GET    | Health check                                                               |
 | /api/v1/info   | GET    | Shows info properties (e.g., buildInfo, git info, or custom info.* fields) |
 
+---
+
 # Test
 
 ## http test (IntelliJ) `/test/http`
@@ -46,11 +50,22 @@
 |---------------------|--------------------------------|
 | `001_root-api.http` | http test for `RootController` |
 
+---
+
 # Setup
 
 ## Docker
 
-### PostgreSQL
+### Starting the docker compose stack.
+
+``` bash
+# Use /docs/integration/docker-compose.yml
+$ docker-compose up -d # run
+$ docker compose down # stop
+$ docker-compose down -v # stop and remove data
+```
+
+#### PostgreSQL as a single container
 
 ``` bash
  # Use /docs/progresql/docker-compose.yml
@@ -62,6 +77,20 @@
  $ docker exec -it my-postgres psql -U myuser -d mydb
  # connect to db directly
  $ psql -h localhost -p 5432 -U myuser -d mydb
+```
+
+#### Redis as a single container
+
+``` bash
+ # Use /docs/redis/docker-compose.yml
+ $ docker-compose up -d # run
+ $ docker compose down # stop
+ $ docker-compose down -v # stop and remove data
+ 
+ # connect to container
+ $ docker exec -it my-redis sh
+ # connect to redis directly
+ $ docker exec -it my-redis redis-cli -a "myredispassword"
 ```
 
 ## DB (PostgreSQL)
