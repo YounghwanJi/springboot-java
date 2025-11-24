@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.8'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.gorylenko.gradle-git-properties' version '2.5.3'
 }
 
 group = 'com.boilerplate'
@@ -19,10 +20,17 @@ repositories {
 }
 
 dependencies {
+    // ----- Spring Boot -----
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // ----- Lombok -----
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
@@ -32,4 +40,14 @@ tasks.named('test') {
 // ----- for /actuator/info -----
 springBoot {
     buildInfo()
+}
+
+// ----- for /v1/info -----
+gitProperties {
+    keys = [
+            'git.branch',
+            'git.commit.id.abbrev',
+            'git.commit.time',
+            'git.commit.message.short'
+    ]
 }

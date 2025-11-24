@@ -28,3 +28,20 @@
 |------------------|--------|----------------------------------------------------------------------------|
 | /actuator/health | GET    | Health check                                                               |
 | /actuator/info   | GET    | Shows info properties (e.g., buildInfo, git info, or custom info.* fields) |
+
+## Root
+
+> Implement directly for cases where an actuator is not used.
+
+| URI            | Method | Description                                                                |
+|----------------|--------|----------------------------------------------------------------------------|
+| /api/v1/health | GET    | Health check                                                               |
+| /api/v1/info   | GET    | Shows info properties (e.g., buildInfo, git info, or custom info.* fields) |
+
+# Test
+
+## http test (IntelliJ) `/test/http`
+
+| File                | Description                    |
+|---------------------|--------------------------------|
+| `001_root-api.http` | http test for `RootController` |

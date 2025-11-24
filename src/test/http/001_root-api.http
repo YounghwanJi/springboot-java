@@ -1,0 +1,28 @@
+### 변수 설정
+@baseUrl = http://localhost:8080
+@apiVersion = v1
+@contentType = application/json
+
+### 1. Health Check
+GET {{baseUrl}}/api/{{apiVersion}}/health
+
+> {%
+    client.test("Health CHeck 성공", function() {
+        client.assert(response.status === 200, "응답 코드는 200이어야 합니다");
+        client.assert(response.body.status === "UP", "응답 status는 \"UP\"이어야 합니다.");
+    });
+%}
+
+### 2. Application Information
+GET {{baseUrl}}/api/{{apiVersion}}/info
+
+> {%
+    client.test("Health Check 성공", function() {
+        client.assert(response.status === 200, "응답 코드는 200이어야 합니다");
+        client.assert(response.body.build !== null, "build 항목이 존재해야 합니다.");
+        client.assert(response.body.build.name === "springboot-java", "build.name 항목은 \"springboot-java\"여야 합니다..");
+        client.assert(response.body.build.version !== null, "build.version 항목이 존재해야 합니다.");
+        client.assert(response.body.build.time !== null, "build.time 항목이 존재해야 합니다.");
+        client.assert(response.body.build.profile !== null, "build.profile 항목이 존재해야 합니다.");
+    });
+%}
