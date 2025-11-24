@@ -11,3 +11,10 @@
 | JDK         | 21              |
 | Build Tool  | Gradle (Groovy) | 
 | Packaging   | Jar             |
+| Port        | 8080            | 
+
+### Profiles
+
+- Use `.yml`
+- `local`, `dev`, `qa`, `stg`, `prd`
+
