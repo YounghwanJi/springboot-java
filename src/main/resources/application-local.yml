@@ -8,5 +8,6 @@ spring:
     show-sql: true
 
 logging:
+  config: classpath:logging/logback-local.xml
   level:
     root: debug

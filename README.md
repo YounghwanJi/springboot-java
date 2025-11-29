@@ -119,3 +119,14 @@ CREATE TABLE users
 -- 생성일자로 정렬/검색이 많다면 인덱스 추가
 -- CREATE INDEX idx_users_created_at ON users(created_at);
 ```
+
+---
+# ETC
+## Logging
+- logback (resources/logging/)
+- rolling
+  - common log - 200MB, total 100GB, 90 days
+  - error log - 200MB, total 50GB, 180 days
+- `type` by profile
+  - `string`: local
+  - `json`: dev, qa, stg, prd

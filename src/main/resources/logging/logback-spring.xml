@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Spring Profile에 따라 설정 파일 분기 -->
+    <springProfile name="local">
+        <include resource="logging/logback-local.xml"/>
+    </springProfile>
+    <springProfile name="dev">
+        <include resource="logging/logback-dev.xml"/>
+    </springProfile>
+    <springProfile name="qa">
+        <include resource="logging/logback-qa.xml"/>
+    </springProfile>
+    <springProfile name="stg">
+        <include resource="logging/logback-stg.xml"/>
+    </springProfile>
+    <springProfile name="prd">
+        <include resource="logging/logback-prd.xml"/>
+    </springProfile>
+</configuration>
