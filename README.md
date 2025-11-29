@@ -121,12 +121,25 @@ CREATE TABLE users
 ```
 
 ---
+
+# Documentation
+
+## Swagger
+
+- /api-docs
+- /swagger-ui.html
+- /swagger-ui/index.html
+
+---
+
 # ETC
+
 ## Logging
+
 - logback (resources/logging/)
 - rolling
-  - common log - 200MB, total 100GB, 90 days
-  - error log - 200MB, total 50GB, 180 days
+    - common log - 200MB, total 100GB, 90 days
+    - error log - 200MB, total 50GB, 180 days
 - `type` by profile
-  - `string`: local
-  - `json`: dev, qa, stg, prd
+    - `string`: local
+    - `json`: dev, qa, stg, prd

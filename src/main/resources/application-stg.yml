@@ -2,3 +2,9 @@ logging:
   config: classpath:logging/logback-stg.xml
   level:
     root: debug
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
