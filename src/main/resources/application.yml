@@ -39,5 +39,6 @@ springdoc:
     path: /swagger-ui.html
     enabled: true
     display-request-duration: true
+    urls-primary-name: User-API
   default-consumes-media-type: application/json
   default-produces-media-type: application/json

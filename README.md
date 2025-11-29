@@ -126,9 +126,16 @@ CREATE TABLE users
 
 ## Swagger
 
+### Entry point
+
 - /api-docs
 - /swagger-ui.html
 - /swagger-ui/index.html
+
+### Separation
+
+- primary: User-API
+- secondary: Dev-API
 
 ---
 

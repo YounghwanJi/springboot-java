@@ -2,6 +2,7 @@ package com.boilerplate.springbootjava.infrastructure.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
@@ -37,6 +38,24 @@ public class OpenApiConfig {
 //                                .name("개발팀")
 //                                .email("dev@example.com"))
                 );
+    }
+
+    // 그룹별 API 설정 (User API)
+    @Bean
+    public GroupedOpenApi userApi() {
+        return GroupedOpenApi.builder()
+                .group("User-API")
+                .pathsToMatch("/api/**")
+                .build();
+    }
+
+    // 그룹별 API 설정 (Dev API)
+    @Bean
+    public GroupedOpenApi devApi() {
+        return GroupedOpenApi.builder()
+                .group("Dev-API")
+                .pathsToMatch("/dev/**")
+                .build();
     }
 
     private String buildStyledDescription() {
