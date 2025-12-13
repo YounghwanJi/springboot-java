@@ -40,6 +40,16 @@
 | /api/v1/health | GET    | Health check                                                               |
 | /api/v1/info   | GET    | Shows info properties (e.g., buildInfo, git info, or custom info.* fields) |
 
+## Users
+
+| URI                | Method | Description                 |
+|--------------------|--------|-----------------------------|
+| /api/v1/users      | POST   | Register a new user         |
+| /api/v1/users/{id} | GET    | Get user details            |
+| /api/v1/users      | GET    | Get paginated list of users |
+| /api/v1/users/{id} | PUT    | Update user profile         |
+| /api/v1/users/{id} | DELETE | Remove user account         |
+
 ---
 
 # Test
