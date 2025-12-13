@@ -11,6 +11,23 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: myredispassword
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000 # 10min (ms)
+      cache-null-values: false # null 값 캐싱 여부
 
 server:
   port: 8080

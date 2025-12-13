@@ -10,6 +10,10 @@ import com.boilerplate.springbootjava.infrastructure.persistence.user.UserEntity
 import com.boilerplate.springbootjava.infrastructure.persistence.user.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,8 +28,10 @@ public class UserService implements UserUseCase {
 
     /**
      * 사용자 생성
+     * 목록에 대한 캐시 삭제
      */
     @Transactional
+    @CacheEvict(value = "userList", allEntries = true)
     public UserResponseDto createUser(UserCreateRequestDto request) {
         // 이메일 중복 체크
         if (userRepository.existsByEmail(request.email())) {
@@ -47,8 +53,19 @@ public class UserService implements UserUseCase {
 
     /**
      * 사용자 조회 (단건)
+     * 캐시에 저장
      */
+    @Cacheable(value = "users", key = "#id", unless = "#result == null")
     public UserResponseDto getUser(Long id) {
+        log.info("getUser: {} (Cache Miss)", id);
+
+        // Cache test
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            return null;
+//        }
+
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + id));
         return UserResponseDto.from(user);
@@ -56,7 +73,12 @@ public class UserService implements UserUseCase {
 
     /**
      * 모든 사용자 조회 (페이징)
+     * 리스트 조회 캐싱
      */
+    @Cacheable(value = "userList",
+            key = "#page + ':' + #size + ':' + #sort", // or key = "#pageable.pageNumber",
+            condition = "#page < 5" // First 5 pages
+    )
     public PageResponseDto<UserResponseDto> getAllUsers(Pageable pageable) {
         Page<UserEntity> page = userRepository.findAll(pageable);
 
@@ -69,8 +91,13 @@ public class UserService implements UserUseCase {
 
     /**
      * 사용자 정보 수정
+     * 캐시 갱신 + 리스트 캐시 무효화
      */
     @Transactional
+    @Caching(
+            put = @CachePut(value = "users", key = "#id"),
+            evict = @CacheEvict(value = "userList", allEntries = true)
+    )
     public UserResponseDto updateUser(Long id, UserUpdateRequestDto request) {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + id));
@@ -96,8 +123,13 @@ public class UserService implements UserUseCase {
 
     /**
      * 사용자 삭제
+     * 모든 관련 캐시 무효화
      */
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "users", key = "#id"),
+            @CacheEvict(value = "userList", allEntries = true)
+    })
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다: " + id);
