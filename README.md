@@ -50,6 +50,16 @@
 | /api/v1/users/{id} | PUT    | Update user profile         |
 | /api/v1/users/{id} | DELETE | Remove user account         |
 
+## External Test
+
+| URI                        | Method | Description                 |
+|----------------------------|--------|-----------------------------|
+| /api/v1/test/external      | POST   | Register a new item         |
+| /api/v1/test/external/{id} | GET    | Get item details            |
+| /api/v1/test/external      | GET    | Get paginated list of items |
+| /api/v1/test/external/{id} | PUT    | Update item                 |
+| /api/v1/test/external/{id} | DELETE | Remove item                 |
+
 ---
 
 ## Handle error(exception)
@@ -99,6 +109,18 @@ validationErrors: {
 |---------------------|--------------------------------|
 | `001_root-api.http` | http test for `RootController` |
 | `002_user-api.http` | http test for `UserController` |
+
+## http request test (External)
+
+- https://github.com/YounghwanJi/t-test-simple-server
+
+| URI                          | Method | Description                          |
+|------------------------------|--------|--------------------------------------|
+| /api/items                   | POST   | Register a new item (201 Created)    |
+| /api/items/{id}              | GET    | Get item details (200 OK)            |
+| /api/items?limit=10&offset=0 | GET    | Get paginated list of items (200 OK) |
+| /api/items/{id}              | PUT    | Update item (200 OK)                 |
+| /api/items/{id}              | DELETE | Remove item (200 OK)                 |
 
 ## http-client.private.env.json
 
