@@ -1,9 +1,11 @@
 package com.boilerplate.springbootjava.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record PageResponseDto<T>(
         List<T> content,
         int page,

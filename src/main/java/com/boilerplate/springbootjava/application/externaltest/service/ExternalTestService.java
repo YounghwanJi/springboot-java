@@ -10,7 +10,9 @@ import com.boilerplate.springbootjava.infrastructure.external.factory.ExternalRe
 import com.boilerplate.springbootjava.infrastructure.external.spec.ExternalRequestSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -28,7 +30,10 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .baseUrl("http://localhost:8100")
                         .path("/api/items")
                         .method(HttpMethod.POST)
-                        .headers(Map.of("Authorization", "Bearer xxx"))
+                        .headers(Map.of(
+                                HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE,
+                                HttpHeaders.AUTHORIZATION, "Bearer xxx"
+                        ))
                         .body(request)
                         .build();
 
@@ -42,7 +47,9 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .baseUrl("http://localhost:8100")
                         .path("/api/items/" + id)
                         .method(HttpMethod.GET)
-                        .headers(Map.of("Authorization", "Bearer xxx"))
+                        .headers(Map.of(
+                                HttpHeaders.AUTHORIZATION, "Bearer xxx"
+                        ))
                         .build();
 
         return externalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
@@ -62,7 +69,9 @@ public class ExternalTestService implements ExternalTestUseCase {
                                 "limit", limit,
                                 "offset", offset
                         ))
-                        .headers(Map.of("Authorization", "Bearer xxx"))
+                        .headers(Map.of(
+                                HttpHeaders.AUTHORIZATION, "Bearer xxx"
+                        ))
                         .build();
 
         ExternalItemPageResponseDto response = externalRestClientFactory.execute(spec, ExternalItemPageResponseDto.class);
@@ -82,8 +91,10 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .baseUrl("http://localhost:8100")
                         .path("/api/items/" + id)
                         .method(HttpMethod.PUT)
-                        .headers(Map.of("Authorization", "Bearer xxx",
-                                "Content-Type", "application/json"))
+                        .headers(Map.of(
+                                HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE,
+                                HttpHeaders.AUTHORIZATION, "Bearer xxx"
+                        ))
                         .body(request)
                         .build();
 
@@ -97,7 +108,9 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .baseUrl("http://localhost:8100")
                         .path("/api/items/" + id)
                         .method(HttpMethod.DELETE)
-                        .headers(Map.of("Authorization", "Bearer xxx"))
+                        .headers(Map.of(
+                                HttpHeaders.AUTHORIZATION, "Bearer xxx"
+                        ))
                         .build();
 
         externalRestClientFactory.execute(spec, Void.class);
