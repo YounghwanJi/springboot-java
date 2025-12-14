@@ -52,6 +52,45 @@
 
 ---
 
+## Handle error(exception)
+
+### Common
+
+``` json
+response: {
+  Instant timestamp,
+  int status,
+  String errorCode,
+  String message,
+  String path,
+  List<ValidationError> validationErrors
+}
+
+validationErrors: {
+  String objectName,
+  String field,
+  String code,
+  String message,
+  Object rejectedValue
+}
+```
+
+### User
+
+    // 400
+    EMAIL_TYPE_INVALID("USER_40001", HttpStatus.BAD_REQUEST,
+            "EMAIL type is invalid."),
+
+    // 409
+    EMAIL_CONFLICT("USER_40901", HttpStatus.CONFLICT,
+            "EMAIL is already in use."),
+
+    // 404
+    USER_NOT_FOUND("USER_40401", HttpStatus.NOT_FOUND,
+            "User not found.");
+
+---
+
 # Test
 
 ## http test (IntelliJ) `/test/http`
@@ -59,6 +98,28 @@
 | File                | Description                    |
 |---------------------|--------------------------------|
 | `001_root-api.http` | http test for `RootController` |
+| `002_user-api.http` | http test for `UserController` |
+
+## http-client.private.env.json
+
+> Unversioned Files (in .gitignore)
+
+``` json
+{
+  "dev": {
+    "authToken": "dev-token-here"
+  },
+  "qa": {
+    "authToken": "qa-token-here"
+  },
+  "stg": {
+    "authToken": "stg-token-here"
+  },
+  "prd": {
+    "authToken": "prd-token-here"
+  }
+}
+```
 
 ---
 

@@ -56,8 +56,7 @@ GET {{baseUrl}}/api/{{apiVersion}}/users/99999
 
 > {%
     client.test("사용자 없음", function() {
-        // 아직 exception handler 구현하지 않았으므로, 임시로 500 처리
-        client.assert(response.status === 500 || response.status === 400 || response.status === 404, "400 또는 404 에러여야 합니다");
+        client.assert(response.status === 400 || response.status === 404, "400 또는 404 에러여야 합니다");
     });
 %}
 
@@ -107,8 +106,7 @@ GET {{baseUrl}}/api/{{apiVersion}}/users/{{userId}}
 
 > {%
     client.test("삭제된 사용자 조회 실패", function() {
-        // 아직 exception handler 구현하지 않았으므로, 임시로 500 처리
-        client.assert(response.status === 500 || response.status === 400 || response.status === 404, "400 또는 404 에러여야 합니다");
+        client.assert(response.status === 400 || response.status === 404, "400 또는 404 에러여야 합니다");
     });
 %}
 
@@ -174,8 +172,7 @@ Content-Type: {{contentType}}
 
 > {%
     client.test("중복 이메일 에러", function() {
-        // 아직 exception handler 구현하지 않았으므로, 임시로 500 처리
-        client.assert(response.status === 500 || response.status === 400, "응답 코드는 400이어야 합니다");
+        client.assert(response.status === 409, "응답 코드는 409여야 합니다");
     });
 %}
 
