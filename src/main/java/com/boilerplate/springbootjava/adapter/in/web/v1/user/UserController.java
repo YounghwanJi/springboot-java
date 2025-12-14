@@ -48,6 +48,24 @@ public class UserController {
     @GetMapping
     public ResponseEntity<PageResponseDto<UserResponseDto>> getAllUsers(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        /*
+        Pageable은 JSR-380(Bean Validation) 대상 객체가 아니므로, @Valid 를 사용 불가함. 아래와 같은 방식으로 추후 validation 필요.
+
+        @GetMapping
+        public ResponseEntity<?> getAll(Pageable pageable) {
+            validatePageable(pageable);
+        }
+
+        private void validatePageable(Pageable pageable) {
+            if (pageable.getPageNumber() < 0) {
+                throw new CustomException(CommonErrorCode.INVALID_PAGE);
+            }
+            if (pageable.getPageSize() > 100) {
+                throw new CustomException(CommonErrorCode.PAGE_SIZE_EXCEEDED);
+            }
+        }
+         */
+
         PageResponseDto<UserResponseDto> response = userUseCase.getAllUsers(pageable);
         return ResponseEntity.ok(response);
     }
