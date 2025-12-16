@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,10 @@ public class UserController {
      * 사용자 생성
      * POST /api/users
      */
-    @PostMapping
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto request) {
         UserResponseDto response = userUseCase.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -35,7 +39,9 @@ public class UserController {
      * 사용자 조회 (단건)
      * GET /api/users/{id}
      */
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<UserResponseDto> getUser(@PathVariable Long id) {
         UserResponseDto response = userUseCase.getUser(id);
         return ResponseEntity.ok(response);
@@ -45,7 +51,9 @@ public class UserController {
      * 모든 사용자 조회 (페이징)
      * GET /api/users?page=0&size=10&sort=createdAt,desc
      */
-    @GetMapping
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<PageResponseDto<UserResponseDto>> getAllUsers(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         /*
@@ -74,7 +82,10 @@ public class UserController {
      * 사용자 수정
      * PUT /api/users/{id}
      */
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<UserResponseDto> updateUser(
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateRequestDto request) {
