@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ExternalRestClientFactory {
+public class ItemExternalRestClientFactory {
 
     private final ItemExternalRestClient itemExternalRestClient;
 

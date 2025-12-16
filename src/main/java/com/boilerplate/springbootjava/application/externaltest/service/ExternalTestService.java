@@ -6,7 +6,7 @@ import com.boilerplate.springbootjava.adapter.in.web.v1.externaltest.dto.Externa
 import com.boilerplate.springbootjava.adapter.in.web.v1.externaltest.dto.ExternalItemUpdateRequestDto;
 import com.boilerplate.springbootjava.application.externaltest.port.in.ExternalTestUseCase;
 import com.boilerplate.springbootjava.common.dto.PageResponseDto;
-import com.boilerplate.springbootjava.infrastructure.external.factory.ExternalRestClientFactory;
+import com.boilerplate.springbootjava.infrastructure.external.factory.ItemExternalRestClientFactory;
 import com.boilerplate.springbootjava.infrastructure.external.spec.ExternalRequestSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ExternalTestService implements ExternalTestUseCase {
 
-    private final ExternalRestClientFactory externalRestClientFactory;
+    private final ItemExternalRestClientFactory itemExternalRestClientFactory;
 
     @Override
     public ExternalItemResponseDto createExternalItem(ExternalItemCreateRequestDto request) {
@@ -37,7 +37,7 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .body(request)
                         .build();
 
-        return externalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
+        return itemExternalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ExternalTestService implements ExternalTestUseCase {
                         ))
                         .build();
 
-        return externalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
+        return itemExternalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ExternalTestService implements ExternalTestUseCase {
                         ))
                         .build();
 
-        ExternalItemPageResponseDto response = externalRestClientFactory.execute(spec, ExternalItemPageResponseDto.class);
+        ExternalItemPageResponseDto response = itemExternalRestClientFactory.execute(spec, ExternalItemPageResponseDto.class);
 
         return PageResponseDto.of(
                 response.content(),
@@ -98,7 +98,7 @@ public class ExternalTestService implements ExternalTestUseCase {
                         .body(request)
                         .build();
 
-        return externalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
+        return itemExternalRestClientFactory.execute(spec, ExternalItemResponseDto.class);
     }
 
     @Override
@@ -113,6 +113,6 @@ public class ExternalTestService implements ExternalTestUseCase {
                         ))
                         .build();
 
-        externalRestClientFactory.execute(spec, Void.class);
+        itemExternalRestClientFactory.execute(spec, Void.class);
     }
 }
