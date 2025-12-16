@@ -33,10 +33,12 @@ public class LoggingFilter extends OncePerRequestFilter {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
+        // FIXED: Finally 내부에 들어가면, External http request 보다 로그가 나중에 찍히는 문제.
+        logRequest(requestWrapper);
+
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
         } finally {
-            logRequest(requestWrapper);
             logResponse(responseWrapper);
             responseWrapper.copyBodyToResponse(); // 중요: 응답 바디를 실제로 전송
         }
@@ -59,6 +61,9 @@ public class LoggingFilter extends OncePerRequestFilter {
             String body = new String(content, StandardCharsets.UTF_8);
             sb.append("Body: ").append(body).append("\n");
         }
+
+        // 주의: 이 시점에서는 body가 아직 읽히지 않았을 수 있습니다
+        // ContentCachingRequestWrapper는 실제로 읽힌 후에만 캐시합니다
 
         logger.info(sb.toString());
     }
