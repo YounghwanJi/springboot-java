@@ -1,6 +1,7 @@
 package com.boilerplate.springbootjava.infrastructure.config.security;
 
 import com.boilerplate.springbootjava.infrastructure.persistence.user.UserRole;
+import com.boilerplate.springbootjava.infrastructure.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

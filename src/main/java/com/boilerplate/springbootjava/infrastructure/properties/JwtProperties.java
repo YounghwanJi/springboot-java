@@ -1,4 +1,4 @@
-package com.boilerplate.springbootjava.infrastructure.config.security;
+package com.boilerplate.springbootjava.infrastructure.properties;
 
 import lombok.Getter;
 import lombok.Setter;
