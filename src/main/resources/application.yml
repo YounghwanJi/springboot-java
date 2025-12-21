@@ -28,6 +28,13 @@ spring:
     redis:
       time-to-live: 600000 # 10min (ms)
       cache-null-values: false # null 값 캐싱 여부
+  jwt:
+    access-token:
+      secret: test-access-token-secret-1234567890-abcdef # 32byte 이상 - HS256 조건 ($ openssl rand -base64 32)
+      expiration: 900000 # 15분
+    refresh-token:
+      secret: test-refresh-token-secret-1234567890-abcdef # 32byte 이상 - HS256 조건
+      expiration: 1209600000 # 14일
 
 server:
   port: 8080

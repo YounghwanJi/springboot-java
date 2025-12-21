@@ -1,6 +1,9 @@
 package com.boilerplate.springbootjava.infrastructure.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +31,23 @@ public class OpenApiConfig {
     public OpenAPI openApi() {
         String description = buildStyledDescription();
         String version = (buildProperties != null) ? buildProperties.getVersion() : "N/A";
+        String securitySchemeName = "BearerAuth";
 
         return new OpenAPI()
+                .addSecurityItem(
+                        new SecurityRequirement().addList(securitySchemeName)
+                )
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        securitySchemeName,
+                                        new SecurityScheme()
+                                                .name("Authorization")
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+                )
                 .info(new io.swagger.v3.oas.models.info.Info()
                                 .title("My API")
                                 .description(description)

@@ -9,6 +9,7 @@ import com.boilerplate.springbootjava.common.dto.PageResponseDto;
 import com.boilerplate.springbootjava.common.exception.CustomException;
 import com.boilerplate.springbootjava.common.exception.errorcode.UserErrorCode;
 import com.boilerplate.springbootjava.infrastructure.persistence.user.UserEntity;
+import com.boilerplate.springbootjava.infrastructure.persistence.user.UserRole;
 import com.boilerplate.springbootjava.infrastructure.persistence.user.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService implements UserUseCase {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 사용자 생성
@@ -43,7 +46,8 @@ public class UserService implements UserUseCase {
         // 엔티티 생성 (실제로는 비밀번호 암호화 필요)
         UserEntity user = UserEntity.builder()
                 .email(request.email())
-                .password(request.password()) // TODO: 암호화 필요 (BCrypt 등)
+                .role(UserRole.USER)
+                .password(passwordEncoder.encode(request.password()))
                 .name(request.name())
                 .phoneNumber(request.phoneNumber())
                 .status(UserStatus.ACTIVE)

@@ -20,6 +20,11 @@
 - Use `.yml`
 - `local`, `dev`, `qa`, `stg`, `prd`
 
+### Security
+
+- Login: email and password
+- Spring Security: Access token and Refresh token
+
 ---
 
 # APIs
@@ -49,6 +54,13 @@
 | /api/v1/users      | GET    | Get paginated list of users |
 | /api/v1/users/{id} | PUT    | Update user profile         |
 | /api/v1/users/{id} | DELETE | Remove user account         |
+
+## Auth
+
+| URI                  | Method | Description          |
+|----------------------|--------|----------------------|
+| /api/v1/auth/login   | POST   | Login and get tokens |
+| /api/v1/auth/refresh | POST   | Get new tokens       |
 
 ## External Test
 
@@ -194,13 +206,14 @@ $ docker-compose down -v # stop and remove data
 CREATE TABLE users
 (
     id           BIGSERIAL PRIMARY KEY,
-    email        VARCHAR(50) NOT NULL UNIQUE,
-    password     VARCHAR(50) NOT NULL,
-    name         VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
-    status       VARCHAR(20) NOT NULL,
-    created_at   TIMESTAMP   NOT NULL,
-    updated_at   TIMESTAMP   NOT NULL
+    role         VARCHAR(20)  NOT NULL DEFAULT 'USER',
+    email        VARCHAR(50)  NOT NULL UNIQUE,
+    password     VARCHAR(255) NOT NULL,
+    name         VARCHAR(50)  NOT NULL,
+    phone_number VARCHAR(20)  NOT NULL,
+    status       VARCHAR(20)  NOT NULL,
+    created_at   TIMESTAMP    NOT NULL,
+    updated_at   TIMESTAMP    NOT NULL
 );
 
 -- 이메일 검색 성능 향상을 위한 인덱스 (UNIQUE 제약조건으로 자동 생성되지만 명시적 표현)
@@ -211,6 +224,31 @@ CREATE TABLE users
 
 -- 생성일자로 정렬/검색이 많다면 인덱스 추가
 -- CREATE INDEX idx_users_created_at ON users(created_at);
+```
+
+`20251221`: role 추가, password 길이 변경 (암호화)
+
+```sql
+ALTER TABLE users
+    ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'USER';
+ALTER TABLE users
+ALTER
+COLUMN password TYPE VARCHAR(255);
+```
+
+### `refresh_tokens` table
+
+```sql
+CREATE TABLE refresh_tokens
+(
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT       NOT NULL,
+    token      VARCHAR(500) NOT NULL,
+    expires_at TIMESTAMP    NOT NULL,
+    created_at TIMESTAMP    NOT NULL,
+    CONSTRAINT fk_refresh_user
+        FOREIGN KEY (user_id) REFERENCES users (id)
+);
 ```
 
 ---
