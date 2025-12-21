@@ -40,6 +40,24 @@ services:
     networks:
       - app-network
 
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: my-vault
+    restart: always
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      TZ: Asia/Seoul
+    volumes:
+      - ./vault/config:/vault/config
+      - ./vault/data:/vault/data
+    cap_add:
+      - IPC_LOCK
+    command: vault server -config=/vault/config/vault.hcl
+    networks:
+      - app-network
+
 volumes:
   postgres-data:
   redis-data:

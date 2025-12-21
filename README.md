@@ -198,6 +198,15 @@ $ docker-compose down -v # stop and remove data
  $ docker exec -it my-redis redis-cli -a "myredispassword"
 ```
 
+#### Hashicorp vault as a single container
+
+``` bash
+ # Use /docs/hashcorp_vault/docker-compose.yml
+ $ docker-compose up -d # run
+ $ docker compose down # stop
+ $ docker-compose down -v # stop and remove data
+```
+
 ## DB (PostgreSQL)
 
 ### `users` table
@@ -240,9 +249,12 @@ COLUMN password TYPE VARCHAR(255);
 
 ```sql
 ALTER TABLE public.users
-ALTER COLUMN email TYPE VARCHAR(255),
-ALTER COLUMN name TYPE VARCHAR(255),
-ALTER COLUMN phone_number TYPE VARCHAR(255);
+ALTER
+COLUMN email TYPE VARCHAR(255),
+ALTER
+COLUMN name TYPE VARCHAR(255),
+ALTER
+COLUMN phone_number TYPE VARCHAR(255);
 ```
 
 ### `refresh_tokens` table
