@@ -236,6 +236,15 @@ ALTER
 COLUMN password TYPE VARCHAR(255);
 ```
 
+`20251221`: 양방향 암호화를 위한 컬럼 길이 변경.
+
+```sql
+ALTER TABLE public.users
+ALTER COLUMN email TYPE VARCHAR(255),
+ALTER COLUMN name TYPE VARCHAR(255),
+ALTER COLUMN phone_number TYPE VARCHAR(255);
+```
+
 ### `refresh_tokens` table
 
 ```sql
