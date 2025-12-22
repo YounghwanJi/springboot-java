@@ -216,10 +216,10 @@ CREATE TABLE users
 (
     id           BIGSERIAL PRIMARY KEY,
     role         VARCHAR(20)  NOT NULL DEFAULT 'USER',
-    email        VARCHAR(50)  NOT NULL UNIQUE,
+    email        VARCHAR(255) NOT NULL UNIQUE,
     password     VARCHAR(255) NOT NULL,
-    name         VARCHAR(50)  NOT NULL,
-    phone_number VARCHAR(20)  NOT NULL,
+    name         VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255) NOT NULL,
     status       VARCHAR(20)  NOT NULL,
     created_at   TIMESTAMP    NOT NULL,
     updated_at   TIMESTAMP    NOT NULL
@@ -271,6 +271,13 @@ CREATE TABLE refresh_tokens
         FOREIGN KEY (user_id) REFERENCES users (id)
 );
 ```
+
+#### TestContainers
+
+TestContainers를 `local` profile에만 적용.
+
+- `001.schema.sql` 을 통해 DB table 세팅.
+- `101.local-test-data.sql` 을 통해 DB content 세팅.
 
 ---
 

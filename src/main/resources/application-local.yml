@@ -1,11 +1,22 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydb
-    username: myuser
-    password: mypassword
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:tc:postgresql:16:///testdb # jdbc:tc:<db-type>:<version>:///<anything> 으로, 'testdb' 는 db 이름이 아님. db는 'test' 로 생성됨.
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
+    hibernate:
+      ddl-auto: none # 001.schema.sql을 직접 사용하기 때문에 none 설정
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/ddl/001.schema.sql
+#      data-locations: classpath:db/dml/101.local-test-data.sql
 
 logging:
   config: classpath:logging/logback-local.xml

@@ -1,0 +1,51 @@
+-- =========================
+-- users
+-- =========================
+
+-- INSERT INTO users (id,
+--                    role,
+--                    email,
+--                    password,
+--                    name,
+--                    phone_number,
+--                    status,
+--                    created_at,
+--                    updated_at)
+-- VALUES (1,
+--         'ADMIN',
+--         'admin1@test.com',
+--         '$2a$10$BCuf8uL.9jKI2hCQJlpKKOK4HIFJJYkF5sVUoyOqoPP8zyGLka08S', -- bcrypt dummy
+--         'rqtVrKyF1mlEwgS0hTZ57kUqXm8kpcQ3r+vzqWtT3nycfuDBLQ==',
+--         '6ljSdJDimnYhEs/L1UODv7uiQkI1qyUOwyKF+afeUNvPsOkbpYfaeT8=',
+--         'ACTIVE',
+--         now(),
+--         now()),
+--        (2,
+--         'ADMIN',
+--         'admin2@test.com',
+--         '$2a$10$BCuf8uL.9jKI2hCQJlpKKOK4HIFJJYkF5sVUoyOqoPP8zyGLka08S', -- bcrypt dummy
+--         'rqtVrKyF1mlEwgS0hTZ57kUqXm8kpcQ3r+vzqWtT3nycfuDBLQ==',
+--         '6ljSdJDimnYhEs/L1UODv7uiQkI1qyUOwyKF+afeUNvPsOkbpYfaeT8=',
+--         'ACTIVE',
+--         now(),
+--         now());
+
+-- =========================
+-- refresh_tokens
+-- =========================
+
+-- INSERT INTO refresh_tokens (id,
+--                             user_id,
+--                             token,
+--                             expires_at,
+--                             created_at)
+-- VALUES (1,
+--         1,
+--         'refresh-token-user-1',
+--         now() + interval '7 days',
+--         now()),
+--        (2,
+--         2,
+--         'refresh-token-admin',
+--         now() + interval '30 days',
+--         now());
