@@ -1,6 +1,7 @@
 package com.boilerplate.springbootjava.infrastructure.config;
 
 import com.boilerplate.springbootjava.infrastructure.filter.security.JwtAuthenticationFilter;
+import com.boilerplate.springbootjava.infrastructure.persistence.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +46,7 @@ public class SecurityConfig {
                                 "/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/**")
-                        .hasAnyRole("ADMIN", "MANAGER")
+                        .hasAnyRole(UserRole.USER.name(), UserRole.MANAGER.name(), UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
