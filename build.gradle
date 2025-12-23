@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.5.8'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'com.gorylenko.gradle-git-properties' version '2.5.3'
+    id 'jacoco'
 }
 
 group = 'com.boilerplate'
@@ -71,6 +72,50 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport  // 테스트 후 자동으로 리포트 생성
+}
+
+// JaCoCo 설정
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+// JaCoCo 테스트 리포트 생성
+jacocoTestReport {
+    dependsOn test  // 테스트 실행 후 리포트 생성
+
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+
+        xml.outputLocation = file("${buildDir}/reports/jacoco/jacocoTestReport.xml")
+        html.outputLocation = file("${buildDir}/reports/jacoco/html")
+    }
+
+    afterEvaluate {
+        // Lombok 생성 코드 제외
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/SpringbootJavaApplication.class',
+                    '**/*Application.class',
+                    '**/config/**',
+                    '**/dto/**',
+                    '**/entity/**'
+            ])
+        }))
+    }
+}
+
+// 커버리지 검증
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.70  // 70% 이상
+            }
+        }
+    }
 }
 
 // ----- for /actuator/info -----

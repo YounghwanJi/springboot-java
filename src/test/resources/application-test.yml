@@ -1,0 +1,82 @@
+spring:
+  datasource:
+    # DynamicPropertySource로 오버라이드됨
+    url: jdbc:postgresql://localhost:5432/testdb
+    driver-class-name: org.postgresql.Driver
+    username: test
+    password: test
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none  # SQL 스크립트로 스키마 생성
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/ddl/001.schema.sql
+      # data-locations 제거 - 테스트 데이터는 각 테스트에서 직접 생성
+
+  data:
+    redis:
+      # TestContainers Redis 설정 (DynamicPropertySource로 오버라이드됨)
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000  # 테스트에서는 짧게 설정 (1분)
+      cache-null-values: false
+
+  # JWT 설정 (테스트용)
+  jwt:
+    access-token:
+      secret: test-access-token-secret-key-for-testing-32bytes-minimum
+      expiration: 900000  # 15분
+    refresh-token:
+      secret: test-refresh-token-secret-key-for-testing-32bytes-min
+      expiration: 1209600000  # 14일
+
+# 암호화 키 (테스트용, 정확히 32자)
+encryption:
+  secret:
+    key: test-encryption-key-123456789012
+
+# 로깅 레벨 (테스트에서는 상세하게)
+logging:
+  level:
+    root: info
+    com.boilerplate.springbootjava: debug
+    org.springframework.security: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.testcontainers: info
+
+# Actuator (테스트에서는 최소화)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+# Swagger (테스트에서는 비활성화)
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+server:
+  port: 0  # 랜덤 포트 사용

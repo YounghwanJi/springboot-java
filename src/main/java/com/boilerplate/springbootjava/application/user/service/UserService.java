@@ -82,8 +82,8 @@ public class UserService implements UserUseCase {
      * 리스트 조회 캐싱
      */
     @Cacheable(value = "userList",
-            key = "#page + ':' + #size + ':' + #sort", // or key = "#pageable.pageNumber",
-            condition = "#page < 5" // First 5 pages
+            key = "#pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort",
+            condition = "#pageable.pageNumber < 5" // First 5 pages
     )
     public PageResponseDto<UserResponseDto> getAllUsers(Pageable pageable) {
         Page<UserEntity> page = userRepository.findAll(pageable);
@@ -115,6 +115,7 @@ public class UserService implements UserUseCase {
                     .id(user.getId())
                     .email(user.getEmail())
                     .password(user.getPassword())
+                    .role(user.getRole())  // role 필드 추가
                     .name(request.name())
                     .phoneNumber(request.phoneNumber() != null ? request.phoneNumber() : user.getPhoneNumber())
                     .status(user.getStatus())
